@@ -2,6 +2,7 @@ package org.andarworld.apigateway.usecases.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.andarworld.apigateway.usecases.SecurityService;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
