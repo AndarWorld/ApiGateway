@@ -1,7 +1,34 @@
+server:
+  port: 8090
+
 spring:
   application:
     name: API-GATEWAY
+  cloud:
+    gateway:
+      routes:
+        - id: Course-Service
+          uri: lb://COURSE-SERVICE
+          predicates:
+            - "Path=/courses/**"
+          filters:
+            - JwtValidationFilter
+
+        - id: University-Service
+          uri: lb://UNIVERSITY-SERVICE
+          predicates:
+             - "Path=/universities/**"
+
+        - id: Education-Service
+          uri: lb://EDUCATION-SERVICE
+          predicates:
+            - "Path=/education/**"
+
 eureka:
   client:
     service-url:
-      defaultZone:
+      defaultZone: ${EUREKA_URL}
+logging:
+  level:
+    root: info
+    org.andarworld.apigateway: debug
