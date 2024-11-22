@@ -1,6 +1,6 @@
 package org.andarworld.apigateway.filter;
 
-import org.andarworld.apigateway.usecases.SecurityService;
+import org.andarworld.apigateway.usecases.AuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
@@ -18,12 +18,12 @@ import java.nio.charset.StandardCharsets;
 @Component
 public class JwtValidationFilter extends AbstractGatewayFilterFactory<JwtValidationFilter.Config> {
 
-    private final SecurityService securityService;
+    private final AuthenticationService authenticationService;
 
     @Autowired
-    public JwtValidationFilter(SecurityService securityService) {
+    public JwtValidationFilter(AuthenticationService authenticationService) {
         super(Config.class);
-        this.securityService = securityService;
+        this.authenticationService = authenticationService;
     }
 
     @Override
@@ -41,11 +41,12 @@ public class JwtValidationFilter extends AbstractGatewayFilterFactory<JwtValidat
                 return handleErrorMessage(exchange, "JWT token isn't exist!");
             }
 
-            if(!securityService.isJwtTokenValid(token)) {
-                return handleErrorMessage(exchange, "JWT token is invalid!");
-            }
-
-            return chain.filter(exchange);
+           return authenticationService.isJwtTokenValid(token)
+                    .flatMap(valid -> {
+                        if (!valid) {
+                            return handleErrorMessage(exchange, "JWT token is invalid!");
+                        } else return chain.filter(exchange);
+                    });
         });
     }
 

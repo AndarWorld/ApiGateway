@@ -10,19 +10,28 @@ spring:
         - id: Course-Service
           uri: lb://COURSE-SERVICE
           predicates:
-            - "Path=/courses/**"
+            - "Path=/api/courses/**"
           filters:
             - JwtValidationFilter
 
         - id: University-Service
           uri: lb://UNIVERSITY-SERVICE
           predicates:
-             - "Path=/universities/**"
+             - "Path=/api/universities/**"
+          filters:
+            - JwtValidationFilter
 
         - id: Education-Service
           uri: lb://EDUCATION-SERVICE
           predicates:
-            - "Path=/education/**"
+            - "Path=/api/education/**"
+          filters:
+            - JwtValidationFilter
+
+        - id: Authentication-Service
+          uri: lb://AUTHENTICATION-SERVICE
+          predicates:
+            - "Path=/api/auth/**"
 
 eureka:
   client:

@@ -9,9 +9,9 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>org.andarworld</groupId>
-    <artifactId>ApiGateway</artifactId>
+    <artifactId>apiGateway</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>ApiGateway</name>
+    <name>apiGateway</name>
     <description>ApiGateway</description>
     <url/>
     <licenses>
