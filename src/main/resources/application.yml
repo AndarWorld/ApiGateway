@@ -4,6 +4,19 @@ server:
 spring:
   application:
     name: API-GATEWAY
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${KEYCLOAK_URL}
+  main:
+    security:
+      keycloak:
+        oauth2:
+          keyset:
+            issuer-uri: ${KEYCLOAK_KEY_SET}
+
+
   cloud:
     gateway:
       routes:
@@ -11,22 +24,16 @@ spring:
           uri: lb://COURSE-SERVICE
           predicates:
             - "Path=/api/courses/**"
-          filters:
-            - JwtValidationFilter
 
         - id: University-Service
           uri: lb://UNIVERSITY-SERVICE
           predicates:
              - "Path=/api/universities/**"
-          filters:
-            - JwtValidationFilter
 
         - id: Education-Service
           uri: lb://EDUCATION-SERVICE
           predicates:
             - "Path=/api/education/**"
-          filters:
-            - JwtValidationFilter
 
         - id: Authentication-Service
           uri: lb://AUTHENTICATION-SERVICE

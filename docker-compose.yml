@@ -1,8 +1,8 @@
 version: '3.8'
 services:
-  bd:
+  db:
     image: postgres:12.21
-    container_name: Postgres
+    container_name: postgres
     restart: always
     environment:
       POSTGRES_USER:
@@ -11,7 +11,25 @@ services:
       - "db_data:/var/lib/postgresql/data"
       - "./init-scripts:/docker-entrypoint-initdb.d/"
     ports:
-      - ${PORT1}
+      - ${DB_PORT}
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.0.6
+    container_name: keycloak
+    restart: always
+    environment:
+      KC_BOOTSTRAP_ADMIN_USERNAME:
+      KC_BOOTSTRAP_ADMIN_PASSWORD:
+      KC_DB:
+      KC_DB_URL:
+      KC_DB_USERNAME:
+      KC_DB_PASSWORD:
+    ports:
+      - ${KEYCLOAK_PORT}
+    command:
+      - start-dev
+    depends_on:
+      - db
 
 volumes:
   db_data:

@@ -1,7 +1,16 @@
-server:
-  port: 8090
-
 eureka:
   client:
     service-url:
       defaultZone: http://localhost:8761/eureka
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8180/realms/test_security_realm
+  main:
+    security:
+      keycloak:
+        oauth2:
+          keyset:
+            issuer-uri: http://localhost:8180/realms/test_security_realm/protocol/openid-connect/certs
