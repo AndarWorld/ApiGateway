@@ -8,14 +8,8 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: ${KEYCLOAK_URL}
-  main:
-    security:
-      keycloak:
-        oauth2:
-          keyset:
-            issuer-uri: ${KEYCLOAK_KEY_SET}
-
+          jwk-set-uri: ${KEYCLOAK_JWK_URI}
+          issuer-uri:  ${KEYCLOAK_ISSUER_URI}
 
   cloud:
     gateway:

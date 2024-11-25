@@ -7,10 +7,5 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: http://localhost:8180/realms/test_security_realm
-  main:
-    security:
-      keycloak:
-        oauth2:
-          keyset:
-            issuer-uri: http://localhost:8180/realms/test_security_realm/protocol/openid-connect/certs
+          jwk-set-uri: http://localhost:8888/realms/test_security_realm/protocol/openid-connect/certs
+          issuer-uri: http://localhost:8888/realms/test_security_realm
