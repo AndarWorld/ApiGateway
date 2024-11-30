@@ -1,7 +1,8 @@
-package org.andarworld.apigateway.security;
+package org.andarworld.apigateway.config;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
@@ -22,6 +23,7 @@ import java.util.Map;
 @Configuration
 @EnableWebFluxSecurity
 @Slf4j
+@RefreshScope
 public class SecurityConfiguration {
 
     @Value("${spring.security.oauth2.resourceserver.jwt.jwk-set-uri}")
@@ -35,7 +37,8 @@ public class SecurityConfiguration {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeExchange(exchange ->
-                        exchange.anyExchange().authenticated())
+                        exchange.pathMatchers("/actuator/**").permitAll()
+                                .anyExchange().authenticated())
                 .oauth2ResourceServer(oauth2 ->
                         oauth2.jwt(jwt ->
                                 jwt.jwtAuthenticationConverter(jwtAuthenticationConverter())
